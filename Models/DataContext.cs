@@ -12,7 +12,7 @@ namespace cty.Models
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-        public DbSet<Roles> roless { get; set; }
+        public DbSet<Roles> roless { get; set; }//sbcđ
         public DbSet<UserModel> UserModels { get; set; }
         public DbSet<LopHoc> LopHocs { get; set; }
         public DbSet<Semester> Semesters { get; set; }
