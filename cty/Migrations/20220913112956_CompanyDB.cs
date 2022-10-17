@@ -8,11 +8,74 @@ namespace cty.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "lichThis",
+                columns: table => new
+                {
+                    LichThiID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name_CLass = table.Column<string>(maxLength: 30, nullable: false),
+                    ChonKhoi = table.Column<int>(nullable: false),
+                    Name_teacher = table.Column<string>(maxLength: 30, nullable: false),
+                    thoigian = table.Column<double>(nullable: false),
+                    NoiDung = table.Column<string>(maxLength: 50, nullable: false),
+                    HinhThuc = table.Column<int>(nullable: false),
+                    LocLichThi = table.Column<int>(nullable: false),
+                    Trangthai = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_lichThis", x => x.LichThiID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "roless",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleName = table.Column<string>(type: "nvarchar(50)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_roless", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "baiKiemTras",
+                columns: table => new
+                {
+                    BaiThiID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LichThiID = table.Column<int>(nullable: false),
+                    Name_CLass = table.Column<string>(maxLength: 30, nullable: false),
+                    Name_teacher = table.Column<string>(maxLength: 30, nullable: false),
+                    Ngay = table.Column<DateTime>(nullable: false),
+                    ChonKhoi = table.Column<int>(nullable: false),
+                    NoiDung = table.Column<string>(maxLength: 50, nullable: false),
+                    thoigian = table.Column<double>(nullable: false),
+                    Trangthai = table.Column<int>(nullable: false),
+                    CacCauhoi = table.Column<string>(maxLength: 50, nullable: false),
+                    Noidungcauhoi = table.Column<string>(maxLength: 50, nullable: false),
+                    Diem = table.Column<float>(maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_baiKiemTras", x => x.BaiThiID);
+                    table.ForeignKey(
+                        name: "FK_baiKiemTras_lichThis_LichThiID",
+                        column: x => x.LichThiID,
+                        principalTable: "lichThis",
+                        principalColumn: "LichThiID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CT_Classs",
                 columns: table => new
                 {
                     ID_CT_CLass = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    LichThiID = table.Column<int>(nullable: false),
                     ID_CLass = table.Column<int>(nullable: false),
                     Name_teacher = table.Column<string>(maxLength: 30, nullable: false),
                     Name_CLass = table.Column<string>(maxLength: 30, nullable: false),
@@ -29,19 +92,12 @@ namespace cty.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CT_Classs", x => x.ID_CT_CLass);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "roless",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleName = table.Column<string>(type: "nvarchar(50)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_roless", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CT_Classs_lichThis_LichThiID",
+                        column: x => x.LichThiID,
+                        principalTable: "lichThis",
+                        principalColumn: "LichThiID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,6 +130,34 @@ namespace cty.Migrations
                         principalTable: "roless",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BangDiems",
+                columns: table => new
+                {
+                    BangDiemID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BaiThiID = table.Column<int>(nullable: false),
+                    Name_CLass = table.Column<string>(maxLength: 30, nullable: false),
+                    Name_teacher = table.Column<string>(maxLength: 30, nullable: false),
+                    Ngaythamgia = table.Column<DateTime>(nullable: false),
+                    DiemChuyenCan = table.Column<float>(maxLength: 30, nullable: false),
+                    DiemMieng = table.Column<float>(maxLength: 30, nullable: false),
+                    Diem15P = table.Column<float>(maxLength: 30, nullable: false),
+                    DiemHeSoII = table.Column<float>(maxLength: 30, nullable: false),
+                    DiemHeSoIII = table.Column<float>(maxLength: 30, nullable: false),
+                    DiemTrungBinh = table.Column<float>(maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BangDiems", x => x.BangDiemID);
+                    table.ForeignKey(
+                        name: "FK_BangDiems_baiKiemTras_BaiThiID",
+                        column: x => x.BaiThiID,
+                        principalTable: "baiKiemTras",
+                        principalColumn: "BaiThiID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,23 +197,16 @@ namespace cty.Migrations
                     nam_bd = table.Column<string>(nullable: false),
                     nam_kt = table.Column<string>(nullable: false),
                     Hinh = table.Column<string>(type: "varchar(200)", maxLength: 100, nullable: true),
-                    semestersID_Semester = table.Column<int>(nullable: true),
-                    usermodelsUser_ID = table.Column<int>(nullable: true)
+                    SemesterID_Semester = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hocsinh", x => x.ID_Student);
                     table.ForeignKey(
-                        name: "FK_Hocsinh_KyHoc_semestersID_Semester",
-                        column: x => x.semestersID_Semester,
+                        name: "FK_Hocsinh_KyHoc_SemesterID_Semester",
+                        column: x => x.SemesterID_Semester,
                         principalTable: "KyHoc",
                         principalColumn: "ID_Semester",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Hocsinh_Users_usermodelsUser_ID",
-                        column: x => x.usermodelsUser_ID,
-                        principalTable: "Users",
-                        principalColumn: "User_ID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -163,14 +240,26 @@ namespace cty.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hocsinh_semestersID_Semester",
-                table: "Hocsinh",
-                column: "semestersID_Semester");
+                name: "IX_baiKiemTras_LichThiID",
+                table: "baiKiemTras",
+                column: "LichThiID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hocsinh_usermodelsUser_ID",
+                name: "IX_BangDiems_BaiThiID",
+                table: "BangDiems",
+                column: "BaiThiID",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CT_Classs_LichThiID",
+                table: "CT_Classs",
+                column: "LichThiID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hocsinh_SemesterID_Semester",
                 table: "Hocsinh",
-                column: "usermodelsUser_ID");
+                column: "SemesterID_Semester");
 
             migrationBuilder.CreateIndex(
                 name: "IX_KyHoc_usermodelsUser_ID",
@@ -191,16 +280,25 @@ namespace cty.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BangDiems");
+
+            migrationBuilder.DropTable(
                 name: "Hocsinh");
 
             migrationBuilder.DropTable(
                 name: "LopHoc");
 
             migrationBuilder.DropTable(
+                name: "baiKiemTras");
+
+            migrationBuilder.DropTable(
                 name: "CT_Classs");
 
             migrationBuilder.DropTable(
                 name: "KyHoc");
+
+            migrationBuilder.DropTable(
+                name: "lichThis");
 
             migrationBuilder.DropTable(
                 name: "Users");

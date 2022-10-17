@@ -1,4 +1,8 @@
+﻿using ASM.Share.Interfaces;
+using cty.Helpers;
+using cty.Interfaces;
 using cty.Models;
+using cty.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,10 +30,15 @@ namespace cty
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDistributedMemoryCache();
-            services.AddControllersWithViews();
             services.AddDbContext<DataContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();// kết nối đường dẫn 
+            services.AddSession(option => { option.IdleTimeout = TimeSpan.FromMinutes(30); });
+            services.AddScoped<Istudent, StudentSVC>();
+            services.AddScoped<IEncode, EncodeHelper>();
+            services.AddScoped<IUserModels, UserModelSVC>();
+            services.AddScoped<IRole, RoleSVC>();
+            services.AddScoped<ICLass, CLassSVC>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +66,7 @@ namespace cty
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=home}/{action=Index}/{id?}");
             });
         }
     }

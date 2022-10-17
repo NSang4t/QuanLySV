@@ -10,7 +10,7 @@ using cty.Models;
 namespace cty.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220830082026_CompanyDB")]
+    [Migration("20220913112956_CompanyDB")]
     partial class CompanyDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,120 @@ namespace cty.Migrations
                 .HasAnnotation("ProductVersion", "3.1.25")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("cty.Models.BaiKiemTra", b =>
+                {
+                    b.Property<int>("BaiThiID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CacCauhoi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("ChonKhoi")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Diem")
+                        .HasColumnType("real")
+                        .HasMaxLength(30);
+
+                    b.Property<int>("LichThiID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name_CLass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Name_teacher")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<DateTime>("Ngay")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NoiDung")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Noidungcauhoi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Trangthai")
+                        .HasColumnType("int");
+
+                    b.Property<double>("thoigian")
+                        .HasColumnType("float");
+
+                    b.HasKey("BaiThiID");
+
+                    b.HasIndex("LichThiID")
+                        .IsUnique();
+
+                    b.ToTable("baiKiemTras");
+                });
+
+            modelBuilder.Entity("cty.Models.BangDiem", b =>
+                {
+                    b.Property<int>("BangDiemID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BaiThiID")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Diem15P")
+                        .HasColumnType("real")
+                        .HasMaxLength(30);
+
+                    b.Property<float>("DiemChuyenCan")
+                        .HasColumnType("real")
+                        .HasMaxLength(30);
+
+                    b.Property<float>("DiemHeSoII")
+                        .HasColumnType("real")
+                        .HasMaxLength(30);
+
+                    b.Property<float>("DiemHeSoIII")
+                        .HasColumnType("real")
+                        .HasMaxLength(30);
+
+                    b.Property<float>("DiemMieng")
+                        .HasColumnType("real")
+                        .HasMaxLength(30);
+
+                    b.Property<float>("DiemTrungBinh")
+                        .HasColumnType("real")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Name_CLass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Name_teacher")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<DateTime>("Ngaythamgia")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("BangDiemID");
+
+                    b.HasIndex("BaiThiID")
+                        .IsUnique();
+
+                    b.ToTable("BangDiems");
+                });
 
             modelBuilder.Entity("cty.Models.CT_Class", b =>
                 {
@@ -32,6 +146,9 @@ namespace cty.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ID_CLass")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LichThiID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Lichthi")
@@ -75,7 +192,51 @@ namespace cty.Migrations
 
                     b.HasKey("ID_CT_CLass");
 
+                    b.HasIndex("LichThiID");
+
                     b.ToTable("CT_Classs");
+                });
+
+            modelBuilder.Entity("cty.Models.LichThi", b =>
+                {
+                    b.Property<int>("LichThiID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChonKhoi")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HinhThuc")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocLichThi")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name_CLass")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Name_teacher")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("NoiDung")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Trangthai")
+                        .HasColumnType("int");
+
+                    b.Property<double>("thoigian")
+                        .HasColumnType("float");
+
+                    b.HasKey("LichThiID");
+
+                    b.ToTable("lichThis");
                 });
 
             modelBuilder.Entity("cty.Models.LopHoc", b =>
@@ -194,6 +355,9 @@ namespace cty.Migrations
                         .IsRequired()
                         .HasColumnType("Char(15)");
 
+                    b.Property<int?>("SemesterID_Semester")
+                        .HasColumnType("int");
+
                     b.Property<string>("nam_bd")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -202,17 +366,9 @@ namespace cty.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("semestersID_Semester")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("usermodelsUser_ID")
-                        .HasColumnType("int");
-
                     b.HasKey("ID_Student");
 
-                    b.HasIndex("semestersID_Semester");
-
-                    b.HasIndex("usermodelsUser_ID");
+                    b.HasIndex("SemesterID_Semester");
 
                     b.ToTable("Hocsinh");
                 });
@@ -287,6 +443,33 @@ namespace cty.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("cty.Models.BaiKiemTra", b =>
+                {
+                    b.HasOne("cty.Models.LichThi", "LichThi")
+                        .WithOne("BaiKiemTra")
+                        .HasForeignKey("cty.Models.BaiKiemTra", "LichThiID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cty.Models.BangDiem", b =>
+                {
+                    b.HasOne("cty.Models.BaiKiemTra", "BaiKiemTra")
+                        .WithOne("BangDiem")
+                        .HasForeignKey("cty.Models.BangDiem", "BaiThiID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("cty.Models.CT_Class", b =>
+                {
+                    b.HasOne("cty.Models.LichThi", "LichThis")
+                        .WithMany("CT_Classs")
+                        .HasForeignKey("LichThiID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("cty.Models.LopHoc", b =>
                 {
                     b.HasOne("cty.Models.CT_Class", "CT_Classs")
@@ -309,13 +492,9 @@ namespace cty.Migrations
 
             modelBuilder.Entity("cty.Models.Student", b =>
                 {
-                    b.HasOne("cty.Models.Semester", "semesters")
+                    b.HasOne("cty.Models.Semester", "Semester")
                         .WithMany("students")
-                        .HasForeignKey("semestersID_Semester");
-
-                    b.HasOne("cty.Models.UserModel", "usermodels")
-                        .WithMany()
-                        .HasForeignKey("usermodelsUser_ID");
+                        .HasForeignKey("SemesterID_Semester");
                 });
 
             modelBuilder.Entity("cty.Models.UserModel", b =>
