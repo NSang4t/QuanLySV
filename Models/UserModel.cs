@@ -15,7 +15,7 @@ namespace cty.Models
         [Display(Name = "Nữ")]
         Nu = 2
     }
-    public enum Role
+    public enum admin
     {
         [Display(Name = "admin")]
         admin = 1,
@@ -62,7 +62,7 @@ namespace cty.Models
         public string DienThoai { get; set; }
 
         [Display(Name = "Roles")]
-        public Role Role { get; set; }
+        public admin Role { get; set; }
 
         [Display(Name = "Sử Dụng")]
         public bool Status { get; set; }

@@ -64,7 +64,7 @@ namespace cty.Models
         [Display(Name = "Chọn Hình")]
         public IFormFile ImageFile { get; set; }
 
-        public Semester semesters { get; set; }
-        public UserModel usermodels { get; set; }
+        public Semester Semester{ get; set; }
+        // public UserModel usermodels { get; set; }
     }
 }

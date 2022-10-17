@@ -17,6 +17,11 @@ namespace cty.Models
         public DbSet<LopHoc> LopHocs { get; set; }
         public DbSet<Semester> Semesters { get; set; }
         public DbSet<CT_Class> CT_Classs { get; set; }
+        public DbSet< BangDiem> BangDiems { get; set; }
+        public DbSet<Student> students { get; set; }
+        public DbSet<BaiKiemTra> baiKiemTras { get; set; }
+        public DbSet<LichThi> lichThis { get; set; }
+
     }
 
 }

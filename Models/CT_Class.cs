@@ -18,9 +18,13 @@ namespace cty.Models
     {
         [Key]
         public int ID_CT_CLass { get; set; }
-        
+
+        [ForeignKey("LichThi")]
+        public int LichThiID { get; set; }
+
         public int ID_CLass { get; set; }
         // public int IDTeacher { get; set; }
+      
 
         [Required(ErrorMessage = "Bạn cần nhập tên giáo viên ")]
         [Display(Name = "tên giáo viên ")]
@@ -72,5 +76,7 @@ namespace cty.Models
         public CaiDat Caidatkhac { get; set; }
 
         public LopHoc lophocs { get; set; }
+
+        public LichThi LichThis { get; set; }
     }
 }
